@@ -51,20 +51,6 @@ The results will be saved to a file named results.json or printed to the console
 
 ## Project Structure
 
-url-checker/
-├── cmd/
-│   └── main.go
-├── internal/
-│   ├── client.go
-│   └── request_check.go
-├── pkg/
-│   ├── file_manager.go
-│   └── url_checker.go
-├── config.json
-├── go.mod
-├── go.sum
-└── urls.txt
-
 ![image](https://github.com/Hleb112/Url-Checker/assets/54846233/092c6695-d15f-4452-ba78-7fefc39b4b77)
 
 
