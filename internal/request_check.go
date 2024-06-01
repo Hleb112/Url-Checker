@@ -28,6 +28,9 @@ func Start() {
 	filemanager.CloseLog(logFile)
 }
 
+// This Go code defines a UrlChecker struct with methods to check multiple URLs concurrently with a specified rate limit using goroutines and channels.
+// The CheckUrls method initializes channels for input and results, spawns goroutines to check each URL, and aggregates the results before returning them.
+
 func (uc *UrlChecker) CheckUrls(urls []string, rateLimit int) []RespResult {
 	wg := &sync.WaitGroup{}
 
