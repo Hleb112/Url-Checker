@@ -65,6 +65,9 @@ url-checker/
 ├── go.sum
 └── urls.txt
 
+![image](https://github.com/Hleb112/Url-Checker/assets/54846233/092c6695-d15f-4452-ba78-7fefc39b4b77)
+
+
 cmd/main.go: The entry point of the application.
 
 internal/client.go: Contains the HTTP client configuration.
