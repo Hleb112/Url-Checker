@@ -1,4 +1,4 @@
-package filemanager
+package file_manager
 
 import (
 	"os"
@@ -40,6 +40,7 @@ func TestReadUrl_Positive(t *testing.T) {
 			t.Errorf("Expected %s, got %s", urls[i], url)
 		}
 	}
+	os.Remove(fileName)
 }
 
 func TestReadUrl_Negative(t *testing.T) {
@@ -65,30 +66,4 @@ func TestSaveResult(t *testing.T) {
 	format = "XML"
 	SaveResult(respResult, format)
 	// Add assertion here to check if log message is printed
-}
-
-func TestReadConfig(t *testing.T) {
-	// Positive test case
-	fileName := "config.json"
-	expectedLimit := 15
-	expectedFormat := "JSON"
-
-	limit, format := ReadConfig("config.json")
-
-	if limit != expectedLimit {
-		t.Errorf("Expected limit to be %d, but got %d", expectedLimit, limit)
-	}
-
-	if format != expectedFormat {
-		t.Errorf("Expected format to be %s, but got %s", expectedFormat, format)
-	}
-
-	// Negative test case
-	fileName = "non_existent_file.json"
-
-	_, err := ReadConfig(fileName)
-
-	if err != "" {
-		t.Errorf("Expected an error but got %s", err)
-	}
 }

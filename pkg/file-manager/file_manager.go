@@ -1,4 +1,4 @@
-package filemanager
+package file_manager
 
 import (
 	"encoding/json"
@@ -8,6 +8,7 @@ import (
 	url "net/url"
 	"os"
 	"strings"
+	"urlChecker2/pkg/config"
 )
 
 // This Go code defines functions for initializing and closing a log file.
@@ -57,36 +58,27 @@ func ReadUrl(fileName string) []string {
 	return urlArray
 }
 
-// ReadConfig defines a function that reads a configuration file,
-// parses the data into RateLimit and Format structs using JSON unmarshalling,
-// and returns the limit from RateLimit and the format from Format.
-
-func ReadConfig(fileName string) (int, string) {
-	var rateLimit RateLimit
-	var format Format
+func ReadConfig(fileName string) *config.UrlCheckerConfig {
+	var cfg config.UrlCheckerConfig
 
 	file, err := os.Open(fileName)
 	defer file.Close()
 
 	if err != nil {
-		log.Println("Unable to open config:", err)
-		return 0, ""
+		log.Println("Unable to open config:", err, "Creating default config")
+		cfg.Limit = 10
+		cfg.Format = "JSON"
+		return &cfg
 	}
 
 	rawData, err := io.ReadAll(file)
-	err = json.Unmarshal(rawData, &rateLimit)
+	err = json.Unmarshal(rawData, &cfg)
 	if err != nil {
-		log.Println("Unable to parse RateLimit:", err)
-		return 0, ""
+		log.Println("Unable to parse config:", err)
+		return nil
 	}
 
-	err = json.Unmarshal(rawData, &format)
-	if err != nil {
-		log.Println("Unable to parse Format:", err)
-		return 0, ""
-	}
-
-	return rateLimit.Limit, format.Format
+	return &cfg
 }
 
 // SaveResult saves the given response result to a file or prints it to the console

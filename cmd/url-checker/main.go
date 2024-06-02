@@ -1,7 +1,9 @@
 package main
 
-import "urlChecker2/internal"
+import (
+	"urlChecker2/internal/url-checker"
+)
 
 func main() {
-	internal.Start()
+	urlchecker.Start()
 }

@@ -18,7 +18,7 @@ git clone https://github.com/Hleb112/url-checker.git
 
 2. Navigate to the project directory:
 
-cd url-chec
+cd url-check
 
 
 ## Configuration

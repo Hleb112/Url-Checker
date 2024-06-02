@@ -1,0 +1,24 @@
+BINARY_NAME=main
+PACKAGE_NAME=cmd/url-checker/
+GO_FILES=$(wildcard *.go)
+
+# Targets
+all: build
+
+build:
+	go build -o $(BINARY_NAME) $(PACKAGE_NAME)
+
+run:
+	go run $(PACKAGE_NAME)
+
+test:
+	go test ./...
+
+clean:
+	go clean
+	rm -f $(BINARY_NAME)
+
+install:
+	go install $(PACKAGE_NAME)
+
+.PHONY: all build run test clean install

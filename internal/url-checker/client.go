@@ -1,7 +1,6 @@
-package internal
+package urlchecker
 
 import (
-	"crypto/tls"
 	"net/http"
 	"time"
 )
@@ -17,13 +16,8 @@ type Client struct {
 type Option func(*Client)
 
 func NewClient(opts ...Option) Client {
-	tr := &http.Transport{
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-	} //ОТКЛЮЧИЛ ВСЮ ЗАЩИТУ НОРМ ???
-
 	client := http.Client{
-		Timeout:   defaultClientTimeout,
-		Transport: tr,
+		Timeout: defaultClientTimeout,
 	}
 
 	c := Client{

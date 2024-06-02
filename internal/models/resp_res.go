@@ -1,4 +1,4 @@
-package internal
+package models
 
 type RespResult struct {
 	Url         string
@@ -7,7 +7,7 @@ type RespResult struct {
 	Err         error
 }
 
-func setResult(reqDuration int64, url string, err error) RespResult {
+func SetResult(reqDuration int64, url string, err error) RespResult {
 	if err != nil {
 		return RespResult{
 			Url:       url,

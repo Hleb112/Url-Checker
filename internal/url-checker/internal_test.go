@@ -1,10 +1,11 @@
-package internal
+package urlchecker
 
 import (
 	"errors"
 	"net/http"
 	"sync"
 	"testing"
+	"urlChecker2/internal/models"
 )
 
 func TestSetResult_Positive(t *testing.T) {
@@ -13,7 +14,7 @@ func TestSetResult_Positive(t *testing.T) {
 	url := "https://example.com"
 	err = nil
 
-	result := setResult(reqDuration, url, err)
+	result := models.SetResult(reqDuration, url, err)
 
 	if result.Url != url {
 		t.Errorf("Expected URL to be %s, but got %s", url, result.Url)
@@ -37,7 +38,7 @@ func TestSetResult_Negative(t *testing.T) {
 	url := "https://example.com"
 	err := errors.New("Error message")
 
-	result := setResult(reqDuration, url, err)
+	result := models.SetResult(reqDuration, url, err)
 
 	if result.Url != url {
 		t.Errorf("Expected URL to be %s, but got %s", url, result.Url)
@@ -57,13 +58,13 @@ func TestSetResult_Negative(t *testing.T) {
 }
 
 func TestCheckUrl_PositiveCase(t *testing.T) {
-	uc := UrlChecker{client: http.Client{}}
+	uc := UrlChecker{Client: http.Client{}}
 	inputUrl := make(chan string)
-	result := make(chan RespResult)
+	result := make(chan models.RespResult)
 	wg := &sync.WaitGroup{}
 
 	wg.Add(1)
-	go uc.checkUrl(wg, inputUrl, result)
+	go uc.checkUrl()
 
 	inputUrl <- "https://www.google.com"
 	close(inputUrl)
@@ -80,13 +81,13 @@ func TestCheckUrl_PositiveCase(t *testing.T) {
 }
 
 func TestCheckUrl_NegativeCase(t *testing.T) {
-	uc := UrlChecker{client: http.Client{}}
+	uc := UrlChecker{Client: http.Client{}}
 	inputUrl := make(chan string)
-	result := make(chan RespResult)
+	result := make(chan models.RespResult)
 	wg := &sync.WaitGroup{}
 
 	wg.Add(1)
-	go uc.checkUrl(wg, inputUrl, result)
+	go uc.checkUrl()
 
 	inputUrl <- "invalidurl"
 	close(inputUrl)
@@ -102,7 +103,7 @@ func TestCheckUrls_Positive(t *testing.T) {
 	uc := &UrlChecker{}
 	urls := []string{"http://example.com"}
 	rateLimit := 2
-	expected := []RespResult{
+	expected := []models.RespResult{
 		{Url: "http://example.com", Available: true},
 	}
 
@@ -118,7 +119,7 @@ func TestCheckUrls_Negative(t *testing.T) {
 	uc := &UrlChecker{}
 	urls := []string{"http://invalidurl"}
 	rateLimit := 2
-	expected := []RespResult{
+	expected := []models.RespResult{
 		{Url: "http://invalidurl", Available: false, ReqDuration: 0},
 	}
 
