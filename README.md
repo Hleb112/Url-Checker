@@ -51,25 +51,7 @@ The results will be saved to a file named results.json or printed to the console
 
 ## Project Structure
 
-![image](https://github.com/Hleb112/Url-Checker/assets/54846233/092c6695-d15f-4452-ba78-7fefc39b4b77)
-
-
-cmd/main.go: The entry point of the application.
-
-internal/client.go: Contains the HTTP client configuration.
-
-internal/request_check.go: Contains the implementation for checking URLs.
-
-pkg/file_manager.go: Contains functions for reading and writing files.
-
-pkg/url_checker.go: Contains the main logic for checking URLs and handling results.
-
-config.json: The configuration file for the application.
-
-urls.txt: The input file containing the list of URLs to check.
-
-go.mod and go.sum: Go module files for managing dependencies.
-
+![img.png](img.png)
 ## Testing and comments
 
 project has high test coverage and a lot of comments to make navigation easy
