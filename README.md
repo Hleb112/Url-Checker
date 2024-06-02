@@ -48,10 +48,6 @@ https://invalid-url
 
 The results will be saved to a file named results.json or printed to the console, depending on the configured output format.
 
-
-## Project Structure
-
-![img.png](img.png)
 ## Testing and comments
 
 project has high test coverage and a lot of comments to make navigation easy
