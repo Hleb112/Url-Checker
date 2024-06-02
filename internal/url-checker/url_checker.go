@@ -2,6 +2,7 @@ package urlchecker
 
 import (
 	"net/http"
+	"net/url"
 	"sync"
 	"time"
 	"urlChecker2/internal/models"
@@ -15,9 +16,9 @@ type UrlChecker struct {
 	result   chan models.RespResult
 }
 
-func NewUrlChecker(cl Client) UrlChecker {
+func NewUrlChecker(cl *Client) UrlChecker {
 	return UrlChecker{
-		Client:   cl.Client,
+		Client:   *cl.Client,
 		wg:       sync.WaitGroup{},
 		inputUrl: make(chan string),
 		result:   make(chan models.RespResult),
@@ -71,17 +72,23 @@ func (uc *UrlChecker) CheckUrls(urls []string, rateLimit int) []models.RespResul
 
 func (uc *UrlChecker) checkUrl() {
 	defer uc.wg.Done()
-	for url := range uc.inputUrl {
+	for stringUrl := range uc.inputUrl {
+		urlType, err := url.Parse(stringUrl)
+
+		req := &http.Request{
+			Method: "GET",
+			URL:    urlType,
+		}
 
 		startTime := time.Now()
 
-		resp, err := uc.Client.Get(url)
+		resp, err := uc.retryWithBackoff(req)
 		if resp != nil {
 			defer resp.Body.Close()
 		}
 
 		responseTime := time.Since(startTime).Milliseconds()
 
-		uc.result <- models.SetResult(responseTime, url, err)
+		uc.result <- models.SetResult(responseTime, stringUrl, err)
 	}
 }
